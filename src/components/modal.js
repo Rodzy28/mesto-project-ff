@@ -1,18 +1,20 @@
 const handleEscKeyUp = (e) => {
   if (e.key === "Escape") {
-    const popup = document.querySelector(".popup_is-opened");
-    closeModal(popup);
+    const modal = document.querySelector(".popup_is-opened");
+    closeModal(modal);
   }
 };
 
 const openModal = (modal) => {
   modal.classList.add("popup_is-opened");
   document.addEventListener("keydown", handleEscKeyUp);
+  console.log('y')
 };
 
 const closeModal = (modal) => {
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscKeyUp);
+  console.log('n')
 };
 
 const closePopupButton = (modal) => {
@@ -22,9 +24,11 @@ const closePopupButton = (modal) => {
     closeModal(modal);
   });
 
-  // элементПопапа.addEventListener("mousedown", (event) => {
-  //   // если event.target содержит класс "popup", то закрываем
-  // });
+  modal.addEventListener("mousedown", (e) => {
+    if (e.target === e.currentTarget) {
+      closeModal(modal);
+    }
+  });
 };
 
 export { openModal, closePopupButton };
