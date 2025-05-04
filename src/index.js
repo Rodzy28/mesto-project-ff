@@ -5,7 +5,6 @@ import { openModal, closePopupButton, closeModal } from "./components/modal.js";
 
 const popupEditUser = document.querySelector(".popup_type_edit");
 const popupAddCard = document.querySelector(".popup_type_new-card");
-// const popupImage = document.querySelector(".popup_type_image");
 const profileButton = document.querySelector(".profile__edit-button");
 const cardButton = document.querySelector(".profile__add-button");
 const cardList = document.querySelector(".places__list");
@@ -45,8 +44,9 @@ function handleCardFormSubmit(evt) {
     deleteCard,
     likeCard
   );
-  closeModal(popupAddCard);
+
   cardList.prepend(newCard);
+  closeModal(popupAddCard);
 }
 
 initialCards.forEach((item) => {
