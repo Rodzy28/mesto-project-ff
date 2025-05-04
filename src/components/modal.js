@@ -8,13 +8,11 @@ const handleEscKeyUp = (e) => {
 const openModal = (modal) => {
   modal.classList.add("popup_is-opened");
   document.addEventListener("keydown", handleEscKeyUp);
-  console.log('y')
 };
 
 const closeModal = (modal) => {
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", handleEscKeyUp);
-  console.log('n')
 };
 
 const closePopupButton = (modal) => {
