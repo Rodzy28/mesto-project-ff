@@ -22,8 +22,8 @@ const closePopupButton = (modal) => {
     closeModal(modal);
   });
 
-  modal.addEventListener("mousedown", (e) => {
-    if (e.target === e.currentTarget) {
+  modal.addEventListener("mousedown", (evt) => {
+    if (evt.target === evt.currentTarget) {
       closeModal(modal);
     }
   });

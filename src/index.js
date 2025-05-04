@@ -1,6 +1,6 @@
 import "./styles/index.css";
 import { initialCards } from "./cards.js";
-import { createCard, deleteCard } from "./components/card.js";
+import { createCard, deleteCard, likeCard } from "./components/card.js";
 import { openModal, closePopupButton } from "./components/modal.js";
 
 const popupEditUser = document.querySelector(".popup_type_edit");
@@ -21,5 +21,5 @@ cardButton.addEventListener("click", () => {
 });
 
 initialCards.forEach((item) => {
-  cardList.append(createCard(item, deleteCard));
+  cardList.append(createCard(item, deleteCard, likeCard));
 });
