@@ -29,4 +29,4 @@ const closePopupButton = (modal) => {
   });
 };
 
-export { openModal, closePopupButton };
+export { openModal, closePopupButton, closeModal };
