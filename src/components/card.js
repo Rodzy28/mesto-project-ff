@@ -1,4 +1,4 @@
-const createCard = (cardData, deleteCard, likeCard) => {
+const createCard = (cardData, deleteCard, likeCard, viewImage) => {
   const cardTemplate = document.querySelector("#card-template").content;
   const card = cardTemplate.querySelector(".card").cloneNode(true);
   const cardTitle = card.querySelector(".card__title");
@@ -12,6 +12,7 @@ const createCard = (cardData, deleteCard, likeCard) => {
 
   cardDeleteButton.addEventListener("click", deleteCard);
   cardLikeButton.addEventListener("click", likeCard);
+  cardImage.addEventListener("click", viewImage);
 
   return card;
 };

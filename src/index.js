@@ -49,8 +49,19 @@ function handleCardFormSubmit(evt) {
   closeModal(popupAddCard);
 }
 
+function viewImage(evt) {
+  const popupImage = document.querySelector(".popup_type_image");
+  const imageContent = popupImage.querySelector('.popup__image')
+  const imageCaption = popupImage.querySelector('.popup__caption')
+  imageContent.src = evt.target.src;
+  imageContent.alt = evt.target.alt;
+  imageCaption.textContent = evt.target.alt;
+  openModal(popupImage);
+  closePopupButton(popupImage);
+}
+
 initialCards.forEach((item) => {
-  cardList.append(createCard(item, deleteCard, likeCard));
+  cardList.append(createCard(item, deleteCard, likeCard, viewImage));
 });
 
 formElementUser.addEventListener("submit", handleUserFormSubmit);
