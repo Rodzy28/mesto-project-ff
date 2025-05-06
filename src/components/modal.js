@@ -15,7 +15,7 @@ const closeModal = (modal) => {
   document.removeEventListener("keydown", handleEscKeyUp);
 };
 
-const closePopupButton = (modal) => {
+const addPopupCloseListeners = (modal) => {
   const close = modal.querySelector(".popup__close");
 
   close.addEventListener("click", () => {
@@ -29,4 +29,4 @@ const closePopupButton = (modal) => {
   });
 };
 
-export { openModal, closePopupButton, closeModal };
+export { openModal, addPopupCloseListeners, closeModal };

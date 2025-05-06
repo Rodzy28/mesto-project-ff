@@ -1,10 +1,11 @@
 import "./styles/index.css";
 import { initialCards } from "./cards.js";
 import { createCard, deleteCard, likeCard } from "./components/card.js";
-import { openModal, closePopupButton, closeModal } from "./components/modal.js";
+import { openModal, addPopupCloseListeners, closeModal } from "./components/modal.js";
 
 const popupEditUser = document.querySelector(".popup_type_edit");
 const popupAddCard = document.querySelector(".popup_type_new-card");
+const popupImage = document.querySelector(".popup_type_image");
 const profileButton = document.querySelector(".profile__edit-button");
 const cardButton = document.querySelector(".profile__add-button");
 const cardList = document.querySelector(".places__list");
@@ -21,14 +22,16 @@ profileButton.addEventListener("click", () => {
   openModal(popupEditUser);
   nameInput.value = userName.textContent;
   jobInput.value = userJob.textContent;
-  closePopupButton(popupEditUser);
 });
 
 cardButton.addEventListener("click", () => {
   formElementCard.reset();
   openModal(popupAddCard);
-  closePopupButton(popupAddCard);
 });
+
+addPopupCloseListeners(popupEditUser);
+addPopupCloseListeners(popupAddCard);
+addPopupCloseListeners(popupImage);
 
 function handleUserFormSubmit(evt) {
   evt.preventDefault();
@@ -51,14 +54,12 @@ function handleCardFormSubmit(evt) {
 }
 
 function viewImage(evt) {
-  const popupImage = document.querySelector(".popup_type_image");
   const imageContent = popupImage.querySelector(".popup__image");
   const imageCaption = popupImage.querySelector(".popup__caption");
   imageContent.src = evt.target.src;
   imageContent.alt = evt.target.alt;
   imageCaption.textContent = evt.target.alt;
   openModal(popupImage);
-  closePopupButton(popupImage);
 }
 
 initialCards.forEach((item) => {
