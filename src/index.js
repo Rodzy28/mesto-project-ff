@@ -42,7 +42,8 @@ function handleCardFormSubmit(evt) {
   const newCard = createCard(
     { name: placeInput.value, link: linkInput.value },
     deleteCard,
-    likeCard
+    likeCard,
+    viewImage
   );
 
   cardList.prepend(newCard);
@@ -51,8 +52,8 @@ function handleCardFormSubmit(evt) {
 
 function viewImage(evt) {
   const popupImage = document.querySelector(".popup_type_image");
-  const imageContent = popupImage.querySelector('.popup__image')
-  const imageCaption = popupImage.querySelector('.popup__caption')
+  const imageContent = popupImage.querySelector(".popup__image");
+  const imageCaption = popupImage.querySelector(".popup__caption");
   imageContent.src = evt.target.src;
   imageContent.alt = evt.target.alt;
   imageCaption.textContent = evt.target.alt;
