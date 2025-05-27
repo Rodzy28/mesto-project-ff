@@ -1,7 +1,12 @@
 import "./styles/index.css";
 import { initialCards } from "./cards.js";
 import { createCard, deleteCard, likeCard } from "./components/card.js";
-import { openModal, addPopupCloseListeners, closeModal } from "./components/modal.js";
+import {
+  openModal,
+  addPopupCloseListeners,
+  closeModal,
+} from "./components/modal.js";
+import { enableValidation } from "./components/validation.js";
 
 const popupEditUser = document.querySelector(".popup_type_edit");
 const popupAddCard = document.querySelector(".popup_type_new-card");
@@ -17,6 +22,19 @@ const userJob = document.querySelector(".profile__description");
 const formElementCard = document.forms["new-place"];
 const placeInput = formElementCard.elements["place-name"];
 const linkInput = formElementCard.elements["link"];
+
+//
+const validationConfig = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__button",
+  inactiveButtonClass: "popup__button_disabled",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__error_visible",
+};
+
+enableValidation(validationConfig);
+//
 
 profileButton.addEventListener("click", () => {
   openModal(popupEditUser);
