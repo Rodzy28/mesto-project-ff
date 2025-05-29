@@ -3,6 +3,7 @@ import { initialCards } from './cards.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
 import { openModal, addPopupCloseListeners, closeModal } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
+import { getInitialCards } from './components/api.js';
 
 const popupEditUser = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_new-card');
@@ -29,6 +30,9 @@ const validationConfig = {
 };
 
 enableValidation(validationConfig);
+Promise.all([getInitialCards()]).then((res) => {
+  console.log(res);
+});
 
 profileButton.addEventListener('click', () => {
   clearValidation(popupEditUser, validationConfig);
