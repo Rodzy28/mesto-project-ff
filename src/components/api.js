@@ -15,3 +15,38 @@ export const getInitialCards = () => {
     headers: config.headers,
   }).then(handleServerResponse);
 };
+
+export const getUserInfo = () => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    headers: config.headers,
+  }).then(handleServerResponse);
+};
+
+export const setUserInfo = (name, about) => {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      name,
+      about,
+    }),
+  }).then(handleServerResponse);
+};
+
+export const postNewCard = (name, link) => {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: 'POST',
+    headers: config.headers,
+    body: JSON.stringify({
+      name,
+      link,
+    }),
+  }).then(handleServerResponse);
+};
+
+export const deleteCard = (id) => {
+  return fetch(`${config.baseUrl}/cards/${id}`, {
+    method: 'DELETE',
+    headers: config.headers,
+  }).then(handleServerResponse);
+};

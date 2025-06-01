@@ -1,9 +1,8 @@
 import './styles/index.css';
-import { initialCards } from './cards.js';
 import { createCard, deleteCard, likeCard } from './components/card.js';
 import { openModal, addPopupCloseListeners, closeModal } from './components/modal.js';
 import { enableValidation, clearValidation } from './components/validation.js';
-import { getInitialCards } from './components/api.js';
+import { getInitialCards, getUserInfo, setUserInfo, postNewCard } from './components/api.js';
 
 const popupEditUser = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_new-card');
@@ -13,9 +12,10 @@ const cardButton = document.querySelector('.profile__add-button');
 const cardList = document.querySelector('.places__list');
 const formElementUser = document.forms['edit-profile'];
 const nameInput = formElementUser.elements.name;
-const jobInput = formElementUser.elements.description;
+const aboutInput = formElementUser.elements.description;
 const userName = document.querySelector('.profile__title');
-const userJob = document.querySelector('.profile__description');
+const userAbout = document.querySelector('.profile__description');
+const userAvatar = document.querySelector('.profile__image');
 const formElementCard = document.forms['new-place'];
 const placeInput = formElementCard.elements['place-name'];
 const linkInput = formElementCard.elements['link'];
@@ -30,15 +30,29 @@ const validationConfig = {
 };
 
 enableValidation(validationConfig);
-Promise.all([getInitialCards()]).then((res) => {
-  console.log(res);
-});
+
+let userId;
+
+Promise.all([getInitialCards(), getUserInfo()])
+  .then(([cards, userInfo]) => {
+    userName.textContent = userInfo.name;
+    userAbout.textContent = userInfo.about;
+    userAvatar.style.backgroundImage = `url(${userInfo.avatar})`;
+    userId = userInfo._id;
+
+    cards.forEach((card) => {
+      cardList.append(createCard(card, deleteCard, likeCard, viewImage, userId));
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 profileButton.addEventListener('click', () => {
   clearValidation(popupEditUser, validationConfig);
   openModal(popupEditUser);
   nameInput.value = userName.textContent;
-  jobInput.value = userJob.textContent;
+  aboutInput.value = userAbout.textContent;
 });
 
 cardButton.addEventListener('click', () => {
@@ -53,22 +67,26 @@ addPopupCloseListeners(popupImage);
 
 function handleUserFormSubmit(evt) {
   evt.preventDefault();
-  userName.textContent = nameInput.value;
-  userJob.textContent = jobInput.value;
-  closeModal(popupEditUser);
+  setUserInfo(nameInput.value, aboutInput.value)
+    .then((res) => {
+      userName.textContent = res.name;
+      userAbout.textContent = res.about;
+      closeModal(popupEditUser);
+    })
+    .catch((err) => console.log(err));
 }
 
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
-  const newCard = createCard(
-    { name: placeInput.value, link: linkInput.value },
-    deleteCard,
-    likeCard,
-    viewImage
-  );
-
-  cardList.prepend(newCard);
-  closeModal(popupAddCard);
+  postNewCard(placeInput.value, linkInput.value)
+    .then((card) => {
+      const newCard = createCard(card, deleteCard, likeCard, viewImage, userId);
+      cardList.prepend(newCard);
+      closeModal(popupAddCard);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
 function viewImage(evt) {
@@ -79,10 +97,6 @@ function viewImage(evt) {
   imageCaption.textContent = evt.target.alt;
   openModal(popupImage);
 }
-
-initialCards.forEach((item) => {
-  cardList.append(createCard(item, deleteCard, likeCard, viewImage));
-});
 
 formElementUser.addEventListener('submit', handleUserFormSubmit);
 formElementCard.addEventListener('submit', handleCardFormSubmit);

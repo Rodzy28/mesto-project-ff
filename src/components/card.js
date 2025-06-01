@@ -1,4 +1,4 @@
-const createCard = (cardData, deleteCard, likeCard, viewImage) => {
+const createCard = (cardData, deleteCard, likeCard, viewImage, userId) => {
   const cardTemplate = document.querySelector('#card-template').content;
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
@@ -10,7 +10,12 @@ const createCard = (cardData, deleteCard, likeCard, viewImage) => {
   cardImage.src = cardData.link;
   cardImage.alt = `На фото ${cardData.name}`;
 
-  cardDeleteButton.addEventListener('click', deleteCard);
+  if (userId === cardData.owner._id) {
+    cardDeleteButton.addEventListener('click', deleteCard);
+  } else {
+    cardDeleteButton.remove();
+  }
+
   cardLikeButton.addEventListener('click', likeCard);
   cardImage.addEventListener('click', viewImage);
 
