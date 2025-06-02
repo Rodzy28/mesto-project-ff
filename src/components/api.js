@@ -44,8 +44,22 @@ export const postNewCard = (name, link) => {
   }).then(handleServerResponse);
 };
 
-export const deleteCard = (id) => {
+export const removeCard = (id) => {
   return fetch(`${config.baseUrl}/cards/${id}`, {
+    method: 'DELETE',
+    headers: config.headers,
+  }).then(handleServerResponse);
+};
+
+export const addLike = (id) => {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
+    method: 'PUT',
+    headers: config.headers,
+  }).then(handleServerResponse);
+};
+
+export const deleteLike = (id) => {
+  return fetch(`${config.baseUrl}/cards/likes/${id}`, {
     method: 'DELETE',
     headers: config.headers,
   }).then(handleServerResponse);

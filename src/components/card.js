@@ -1,22 +1,39 @@
-const createCard = (cardData, deleteCard, likeCard, viewImage, userId) => {
+const createCard = (cardData, handleDeleteCard, handleLikeCard, viewImage, userId) => {
   const cardTemplate = document.querySelector('#card-template').content;
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
   const cardImage = card.querySelector('.card__image');
   const cardDeleteButton = card.querySelector('.card__delete-button');
   const cardLikeButton = card.querySelector('.card__like-button');
+  const cardLikeCounter = card.querySelector('.card__like-counter');
 
+  // Заполнение данных карточки
   cardTitle.textContent = cardData.name;
   cardImage.src = cardData.link;
   cardImage.alt = `На фото ${cardData.name}`;
+  cardLikeCounter.textContent = cardData.likes.length;
 
+  // Проверка наличия иконки треш и слушатель на удалить
   if (userId === cardData.owner._id) {
-    cardDeleteButton.addEventListener('click', deleteCard);
+    cardDeleteButton.addEventListener('click', (evt) => {
+      handleDeleteCard(evt, cardData._id);
+    });
   } else {
     cardDeleteButton.remove();
   }
 
-  cardLikeButton.addEventListener('click', likeCard);
+  // Проверка есть ли лайк пользователя
+  cardData.likes.forEach((like) => {
+    if (like._id === userId) {
+      cardLikeButton.classList.add('card__like-button_is-active');
+    }
+  });
+
+  // Ставим/убираем лайк
+  cardLikeButton.addEventListener('click', (evt) => {
+    handleLikeCard(evt, cardData);
+  });
+
   cardImage.addEventListener('click', viewImage);
 
   return card;
