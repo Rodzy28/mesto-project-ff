@@ -33,6 +33,16 @@ export const setUserInfo = (name, about) => {
   }).then(handleServerResponse);
 };
 
+export const setAvatar = (avatar) => {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar,
+    }),
+  }).then(handleServerResponse);
+};
+
 export const postNewCard = (name, link) => {
   return fetch(`${config.baseUrl}/cards`, {
     method: 'POST',

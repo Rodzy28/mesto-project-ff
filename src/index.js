@@ -10,6 +10,7 @@ import {
   removeCard,
   addLike,
   deleteLike,
+  setAvatar,
 } from './components/api.js';
 
 const popupEditUser = document.querySelector('.popup_type_edit');
@@ -18,6 +19,8 @@ const popupImage = document.querySelector('.popup_type_image');
 const popupConfirmDelete = document.querySelector('.popup_type_confirm-delete');
 const confirmButton = popupConfirmDelete.querySelector('.popup__button');
 const profileButton = document.querySelector('.profile__edit-button');
+const avatarButton = document.querySelector('.profile__image');
+const popupEditAvatar = document.querySelector('.popup_type_avatar');
 const cardButton = document.querySelector('.profile__add-button');
 const cardList = document.querySelector('.places__list');
 const formElementUser = document.forms['edit-profile'];
@@ -29,6 +32,8 @@ const userAvatar = document.querySelector('.profile__image');
 const formElementCard = document.forms['new-place'];
 const placeInput = formElementCard.elements['place-name'];
 const linkInput = formElementCard.elements['link'];
+const formElementAvatar = document.forms['avatar-edit'];
+const avatarInput = formElementAvatar.elements['avatar-input'];
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -71,19 +76,40 @@ cardButton.addEventListener('click', () => {
   openModal(popupAddCard);
 });
 
+avatarButton.addEventListener('click', () => {
+  clearValidation(popupEditAvatar, validationConfig);
+  formElementAvatar.reset();
+  openModal(popupEditAvatar);
+});
+
 addPopupCloseListeners(popupEditUser);
 addPopupCloseListeners(popupAddCard);
 addPopupCloseListeners(popupImage);
 addPopupCloseListeners(popupConfirmDelete);
+addPopupCloseListeners(popupEditAvatar);
 
 // Обработчик юзера
 function handleUserFormSubmit(evt) {
   evt.preventDefault();
+  const textButton = popupEditUser.querySelector(validationConfig.submitButtonSelector);
+  renderLoading(textButton, true);
   setUserInfo(nameInput.value, aboutInput.value)
     .then((res) => {
       userName.textContent = res.name;
       userAbout.textContent = res.about;
       closeModal(popupEditUser);
+    })
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(textButton, false));
+}
+
+// Обработчик аватарки
+function handleAvatarFormSubmit(evt) {
+  evt.preventDefault();
+  setAvatar(avatarInput.value)
+    .then((userInfo) => {
+      userAvatar.style.backgroundImage = `url(${userInfo.avatar})`;
+      closeModal(popupEditAvatar);
     })
     .catch((err) => console.log(err));
 }
@@ -130,6 +156,14 @@ function handleLikeCard(evt, cardData) {
     .catch((err) => console.log(err));
 }
 
+function renderLoading(textButton, isLoading) {
+  if (isLoading) {
+    textButton.textContent = 'Сохранение...';
+  } else {
+    textButton.textContent = 'Сохранить';
+  }
+}
+
 function viewImage(evt) {
   const imageContent = popupImage.querySelector('.popup__image');
   const imageCaption = popupImage.querySelector('.popup__caption');
@@ -141,3 +175,4 @@ function viewImage(evt) {
 
 formElementUser.addEventListener('submit', handleUserFormSubmit);
 formElementCard.addEventListener('submit', handleCardFormSubmit);
+formElementAvatar.addEventListener('submit', handleAvatarFormSubmit);
