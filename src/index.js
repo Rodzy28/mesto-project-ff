@@ -106,17 +106,22 @@ function handleUserFormSubmit(evt) {
 // Обработчик аватарки
 function handleAvatarFormSubmit(evt) {
   evt.preventDefault();
+  const textButton = popupEditAvatar.querySelector(validationConfig.submitButtonSelector);
+  renderLoading(textButton, true);
   setAvatar(avatarInput.value)
     .then((userInfo) => {
       userAvatar.style.backgroundImage = `url(${userInfo.avatar})`;
       closeModal(popupEditAvatar);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => renderLoading(textButton, false));
 }
 
 // Обработчик создания карточки
 function handleCardFormSubmit(evt) {
   evt.preventDefault();
+  const textButton = popupAddCard.querySelector(validationConfig.submitButtonSelector);
+  renderLoading(textButton, true);
   postNewCard(placeInput.value, linkInput.value)
     .then((card) => {
       const newCard = createCard(card, handleDeleteCard, handleLikeCard, viewImage, userId);
@@ -125,11 +130,15 @@ function handleCardFormSubmit(evt) {
     })
     .catch((err) => {
       console.log(err);
-    });
+    })
+    .finally(() => renderLoading(textButton, false));
 }
 
 // Обработчик удаления карточки
 function handleDeleteCard(evt, cardId) {
+  evt.preventDefault();
+  const popupConfirmDelete = document.querySelector('.popup_type_confirm-delete');
+  const confirmButton = popupConfirmDelete.querySelector('.popup__button');
   openModal(popupConfirmDelete);
   confirmButton.addEventListener('click', () => {
     removeCard(cardId)
