@@ -136,18 +136,11 @@ function handleCardFormSubmit(evt) {
 
 // Обработчик удаления карточки
 function handleDeleteCard(evt, cardId) {
-  evt.preventDefault();
-  const popupConfirmDelete = document.querySelector('.popup_type_confirm-delete');
-  const confirmButton = popupConfirmDelete.querySelector('.popup__button');
-  openModal(popupConfirmDelete);
-  confirmButton.addEventListener('click', () => {
-    removeCard(cardId)
-      .then(() => {
-        closeModal(popupConfirmDelete);
-        deleteCard(evt);
-      })
-      .catch((err) => console.log(err));
-  });
+  removeCard(cardId)
+    .then(() => {
+      deleteCard(evt);
+    })
+    .catch((err) => console.log(err));
 }
 
 // Обработчик лайков

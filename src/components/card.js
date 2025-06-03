@@ -13,14 +13,13 @@ const createCard = (cardData, handleDeleteCard, handleLikeCard, viewImage, userI
   cardImage.alt = `На фото ${cardData.name}`;
   cardLikeCounter.textContent = cardData.likes.length;
 
-  // Проверка наличия иконки треш и слушатель на удалить
-  if (userId === cardData.owner._id) {
-    cardDeleteButton.addEventListener('click', (evt) => {
-      handleDeleteCard(evt, cardData._id);
-    });
-  } else {
+  if (userId !== cardData.owner._id) {
     cardDeleteButton.remove();
   }
+
+  cardDeleteButton.addEventListener('click', (evt) => {
+    handleDeleteCard(evt, cardData._id)
+  })
 
   // Проверка есть ли лайк пользователя
   cardData.likes.forEach((like) => {
