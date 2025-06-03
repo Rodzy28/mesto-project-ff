@@ -16,8 +16,6 @@ import {
 const popupEditUser = document.querySelector('.popup_type_edit');
 const popupAddCard = document.querySelector('.popup_type_new-card');
 const popupImage = document.querySelector('.popup_type_image');
-const popupConfirmDelete = document.querySelector('.popup_type_confirm-delete');
-const confirmButton = popupConfirmDelete.querySelector('.popup__button');
 const profileButton = document.querySelector('.profile__edit-button');
 const avatarButton = document.querySelector('.profile__image');
 const popupEditAvatar = document.querySelector('.popup_type_avatar');
