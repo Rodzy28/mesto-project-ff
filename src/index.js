@@ -83,7 +83,6 @@ avatarButton.addEventListener('click', () => {
 addPopupCloseListeners(popupEditUser);
 addPopupCloseListeners(popupAddCard);
 addPopupCloseListeners(popupImage);
-addPopupCloseListeners(popupConfirmDelete);
 addPopupCloseListeners(popupEditAvatar);
 
 // Обработчик юзера
